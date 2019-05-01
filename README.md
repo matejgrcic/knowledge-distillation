@@ -1,3 +1,22 @@
+
 # Knowledge distillation
 
-Knowledge distillation between deep neural networks
+  
+
+Knowledge distillation written in Tensorflow low-level api.
+
+  
+## Papers
+
+* [Distilling the Knowledge in a Neural Network, Geoffrey Hinton, Oriol Vinyals, Jeff Dean](https://arxiv.org/abs/1503.02531)
+* [Model Distillation with Knowledge Transfer from Face Classification to Alignment and Verification, Chong Wang, Xipeng Lan, Yangang Zhang](https://arxiv.org/abs/1709.02929)
+* [FitNets: Hints for Thin Deep Nets, Adriana Romero, Nicolas Ballas, Samira Ebrahimi Kahou, Antoine Chassang, Carlo Gatta, Yoshua Bengio](https://arxiv.org/abs/1412.6550)
+# FitNets: Hints for Thin Deep Nets
+  
+  
+
+## Requirements
+
+* Tensorflow 1.13.1
+
+* Numpy 1.16.2
