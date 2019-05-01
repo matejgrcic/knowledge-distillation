@@ -3,7 +3,7 @@
 
   
 
-Knowledge distillation written in Tensorflow low-level api.
+This repo contains a simple example of knowledge distillation between two neural networks written in Tensorflow low-level API. Teacher networks accomplish accuracy of 69% on the test set. After distillation of knowledge, student network with 92% fewer parameters accomplishes accuracy of 68%.
 
   
 ## Papers
