@@ -1,9 +1,10 @@
 import tensorflow as tf
 import tensorflow.contrib.layers as layers
 import numpy as np
+from utils import cross_entropy_loss
 
 class DeepModel():
-    def __init__(self,inputs, num_classes):
+    def __init__(self,inputs, num_classes, temperature):
         config = {
             'weight_decay': 1e-3,
             'conv1_size': 10,
@@ -18,8 +19,8 @@ class DeepModel():
         }
 
         optimization_config = {
-            'learning_rate': 0.01,
-            'decay_steps': 10,
+            'learning_rate': 0.1,
+            'decay_steps': 50,
             'decay_rate': 0.96,
         }
         _, H, W, C = inputs.shape
@@ -30,7 +31,8 @@ class DeepModel():
         net = self._create_3x3_conv_layer(net, config)
         self.logits = self._create_fully_connected_layers(net, config)
 
-        self.loss = tf.losses.mean_squared_error(self.teacher_logits, self.logits)
+        # self.loss = tf.losses.mean_squared_error(self.teacher_logits, self.logits)
+        self.loss = cross_entropy_loss(self.logits / temperature, self.teacher_logits / temperature)
         self.optimization = self._create_optimization(optimization_config)
 
     def _create_5x5_conv_layers(self, config):
@@ -80,7 +82,9 @@ class DeepModel():
         optimizer = tf.train.AdagradOptimizer(self.learning_rate)
         return optimizer.minimize(self.loss)
 
-    def train(self, train_x, session, batch_size, max_epochs, teacher):
+    def train(self, train_x, session, config, teacher, callback_fn):
+        batch_size = config['batch_size']
+        max_epochs = config['max_epochs']
         self._check_batch_size(train_x, batch_size)
         num_examples = train_x.shape[0]
         num_batches = num_examples // batch_size
@@ -90,8 +94,8 @@ class DeepModel():
             for i in range(num_batches):
                 loss_value = self._learn_on_batch(session, teacher, train_x, batch_size, i, epoch)
                 total_loss += loss_value
-            print(f"epoch {epoch}, average loss: {total_loss/num_examples}")
-        
+            print(f"epoch {epoch}, average loss: {total_loss / num_examples}")
+            callback_fn(session, config, self)
 
     def _check_batch_size(self, x, batch_size):
         num_examples = x.shape[0]

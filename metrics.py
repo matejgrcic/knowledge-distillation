@@ -13,4 +13,4 @@ def accuracy(x, y, batch_size, num_classes, session, model):
         yp = np.argmax(logits_val, 1)
         yt = np.argmax(batch_y, 1)
         cnt_correct += (yp == yt).sum()
-    return cnt_correct/num_examples * 100.
+    return cnt_correct / num_examples

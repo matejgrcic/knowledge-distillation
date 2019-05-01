@@ -65,7 +65,7 @@ class DeepModel():
         optimizer = tf.train.AdagradOptimizer(self.learning_rate)
         return optimizer.minimize(self.loss)
 
-    def train(self, train_x, train_y, session, config):
+    def train(self, train_x, train_y, session, config, callback_fn):
         batch_size = config['batch_size']
         max_epochs = config['max_epochs']
         num_examples = train_x.shape[0]
@@ -91,8 +91,10 @@ class DeepModel():
                 yt = np.argmax(batch_y, 1)
                 cnt_correct += (yp == yt).sum()
 
+                # TODO: remove or write it prettier
                 if i % 5 == 0:
                     print("epoch %d, step %d/%d, batch loss = %.2f" % (epoch, i*batch_size, num_examples, loss_val))
                 if i > 0 and i % 50 == 0:
                     print("Train accuracy = %.2f" % (cnt_correct / ((i+1)*batch_size) * 100))
+            callback_fn(session, config, self)
             print("Train accuracy = %.2f" % (cnt_correct / num_examples * 100))
