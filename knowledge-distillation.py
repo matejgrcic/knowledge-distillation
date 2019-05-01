@@ -16,7 +16,7 @@ student_config = {}
 student_config['max_epochs'] = 50
 student_config['batch_size'] = 50
 student_config['num_classes'] = number_of_classes
-student_config['temperature'] = 0.9
+student_config['temperature'] = 1.5
 
 teacher = teacher_model.DeepModel(train_x, number_of_classes)
 student = student_model.DeepModel(train_x, number_of_classes, student_config['temperature'])
