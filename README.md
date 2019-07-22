@@ -25,5 +25,5 @@ This repo contains a simple example of knowledge distillation between two neural
 
 ## Future work
 
-* increase the accuracy of both teacher and student network
+* increase accuracy of both teacher and student network
 * implement hints learning explained in FitNets paper
